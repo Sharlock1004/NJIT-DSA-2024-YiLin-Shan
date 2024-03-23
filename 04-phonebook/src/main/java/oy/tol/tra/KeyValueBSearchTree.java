@@ -11,13 +11,13 @@ public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictiona
 
     @Override
     public Type getType() {
-        return Type.NONE;
+        return Type.BST;
     }
 
     @Override
     public int size() {
         // TODO: Implement this
-        return 0;
+        return count;
     }
 
     /**
@@ -56,13 +56,32 @@ public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictiona
             // so do not just replace it with this new node but set
             // the keys and values for the already existing root.
             
-        return false;
+        if(key==null||value==null){
+            throw new IllegalArgumentException("The key can not be null .");
+        }
+        if (root == null) {
+            root = new TreeNode<>(key, value);
+            count++;
+            return true;
+        }else{
+            int insertResult=root.insert(key, value, key.hashCode());
+            if(insertResult==1){
+                count++;
+            }
+        }
+        
+
+        return true;
     }
 
     @Override
     public V find(K key) throws IllegalArgumentException {
         // TODO: Implement this. //Think about this
-        return (null);
+        if(key==null){
+            throw new IllegalArgumentException("The key can not be null .");
+        }
+        int hash=key.hashCode();
+        return root.find(key, hash);
     }
 
     @Override
