@@ -102,7 +102,7 @@ private static <E extends Comparable<E>> int partition(E [] array, int begin, in
     return left;
 
 }
-//TODO: this is for a test,need to be written by youself
+
 public static <T> void sortWithComparator( T[] array, Comparator<? super T> comparator) {
     Arrays.sort(array, comparator);
 }
