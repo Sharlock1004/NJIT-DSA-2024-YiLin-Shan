@@ -29,9 +29,9 @@ public class DailyTasks {
       try {
          // TODO:
          // 1. create a queue (to the member variable!) for daily tasks, which are strings.
-         
+         dailyTaskQueue=new QueueImplementation<>(TASK_DELAY_IN_SECONDS);
          // 2. read the tasks for today by calling readTasks() -- implementing missing parts of it!
-         
+         readTasks();
          // 3. create Java Timer object (to member variable) to schedule your daily tasks. (Already given to you.)
          timer = new Timer();
          // 4. schedule the timer at fixed rate with a new TimerTask,
@@ -41,11 +41,15 @@ public class DailyTasks {
             @Override
             public void run() {
                // 4.1.1 check if there are tasks in the queue:
-               
+               if(!dailyTaskQueue.isEmpty()){
                   // 4.1.2 if yes, print the task from the queue, dequeueing it.
-                  
+                  String task=dailyTaskQueue.dequeue();
+                  System.out.println("The task is :"+task);
+               }
                   // 4.1.3 if not, cancel the timer.
-               
+               else{
+                  timer.cancel();
+               }
             }
          }, TASK_DELAY_IN_SECONDS, TASK_DELAY_IN_SECONDS);
       } catch (IOException e) {
@@ -59,9 +63,9 @@ public class DailyTasks {
       String[] allTasks = tasks.split("\\r?\\n");
       for (String task : allTasks) {
          // TODO: Enqueue the task to your Queue implementation:
-         
+         dailyTaskQueue.enqueue(task);
       }
       // TODO: print out to the console the number of tasks in the queue:
-      
+      System.out.println("The number of tasks in the queue is :"+dailyTaskQueue.size());
    }
 }
