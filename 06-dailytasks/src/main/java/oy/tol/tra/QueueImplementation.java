@@ -56,11 +56,15 @@ public class QueueImplementation<E> implements QueueInterface<E> {
          try {
             int newCapacity = 2 * capacity;
             Object[] newArray = new Object[newCapacity];
+            int index=head;
             for (int i = 0; i < capacity; i++) {
-               newArray[i] = itemArray[i];
+               newArray[i] = itemArray[index];
+               index=(index+1)%capacity;
             }
             itemArray = newArray;
             capacity = newCapacity;
+            head=0;
+            tail=size;
          } catch (OutOfMemoryError e) {
             throw new QueueAllocationException("Fail to allocate more room for the stack.");
 
@@ -82,13 +86,11 @@ public class QueueImplementation<E> implements QueueInterface<E> {
       if (head==tail) {
          throw new QueueIsEmptyException("Stack is empty");
       }
-      Object dequeueElement=itemArray[head];
-      head++;
-      if(head>=capacity){
-         head=0;
-      }
+    E dequeuedElement = (E) itemArray[head];
+      itemArray[head] = null; 
+      head = (head + 1) % capacity; 
       size--;
-      return(E) dequeueElement;
+      return dequeuedElement;
    }
 
    @SuppressWarnings("unchecked")
